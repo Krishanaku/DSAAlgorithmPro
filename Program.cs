@@ -3,35 +3,58 @@
     public class Program
     {
 
-        public static void DisplayAnagram()
+        public static void PrimeNumber()
         {
-            string str1 = "heater";
-            string str2 = "reheat";
-            char[] chr1 = str1.ToLower().ToCharArray();
-            char[] chr2 = str2.ToLower().ToCharArray();
+            int num1, num2, i, j, flag;
 
-            Array.Sort(chr1);
-            Array.Sort(chr2);
 
-            string val1 = new string(chr1);
-            string val2 = new string(chr2);
+            Console.WriteLine("Enter Lowest of value between 0 to 1000 : ");
 
-            if (val1 == val2)
+            num1 = int.Parse(Console.ReadLine());
+
+
+            Console.WriteLine("Enter Lowest of value between 0 to 1000: ");
+
+
+            num2 = int.Parse(Console.ReadLine());
+
+
+            Console.WriteLine("Prime numbers between " +
+                              "{0} and {1} are: ", num1, num2);
+
+
+            for (i = num1; i <= num2; i++)
             {
-                Console.WriteLine("This is Anagram");
-            }
-            else
-            {
-                Console.WriteLine("This is not Anagram");
+
+
+                if (i == 1 || i == 0)
+                    continue;
+
+                // flag variable to tell
+                // if i is prime or not
+                flag = 1;
+
+                for (j = 2; j <= i / 2; ++j)
+                {
+                    if (i % j == 0)
+                    {
+                        flag = 0;
+                        break;
+                    }
+                }
+
+                // flag = 1 means i is prime
+                // and flag = 0 means i is not prime
+                if (flag == 1)
+                    Console.WriteLine(i);
             }
         }
 
 
 
-
         public static void Main(string[] args) 
         {
-            Program.DisplayAnagram();
+            Program.PrimeNumber();
        
 
         }
