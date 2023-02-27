@@ -2,46 +2,37 @@
 {
     public class Program
     {
-        public static void  Display()
-        {
-            int[] arr = new int[5] { 23, 9, 85, 12, 99 };
-            int n = 5, i, j, val, flag;
-            Console.WriteLine("Intial Array");
-            for (i = 0; i < n; i++)
+       
+            public static void DisplayNumber()
             {
-                Console.WriteLine(arr[i]);
-            }
-
-            for (i = 1; i < n; i++)
-            {
-                val = arr[i];
-                flag = 0;
-                for (j = i - 1; j >= 0 && flag != 1;)
+                int[] arr = { 78, 55, 45, 98, 13 };
+                int temp;
+                for (int j = 0; j <= arr.Length - 2; j++)
                 {
-                    if (val < arr[j])
+                    for (int i = 0; i <= arr.Length - 2; i++)
                     {
-                        arr[j + 1] = arr[j];
-                        j--;
-                        arr[j + 1] = val;
-                    }
-                    else
-                    {
-                        flag = 1;
+                        if (arr[i] > arr[i + 1])
+                        {
+                            temp = arr[i + 1];
+                            arr[i + 1] = arr[i];
+                            arr[i] = temp;
+                        }
                     }
                 }
-            }
-            Console.WriteLine("Sorted Array");
-            foreach (int p in arr)
-            {
-                Console.WriteLine(p);
+                Console.WriteLine("Binary Sorted");
+                foreach (int p in arr)
+                {
+                    Console.WriteLine(p);
+                }
+
             }
 
+        
 
-        }
 
         public static void Main(string[] args) 
         {
-            Program.Display();
+            Program.DisplayNumber();
        
 
         }
