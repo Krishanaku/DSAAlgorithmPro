@@ -2,44 +2,47 @@
 {
     public class Program
     {
-        public static void swap(char[] chars, int i, int j)
+        public static void  Display()
         {
-            char temp = chars[i];
-            chars[i] = chars[j];
-            chars[j] = temp;
-        }
-
-        public static void permutations(char[] chars, int currentIndex)
-        {
-            if (currentIndex == chars.Length - 1)
+            int[] arr = new int[5] { 23, 9, 85, 12, 99 };
+            int n = 5, i, j, val, flag;
+            Console.WriteLine("Intial Array");
+            for (i = 0; i < n; i++)
             {
-                Console.WriteLine(chars);
+                Console.WriteLine(arr[i]);
             }
 
-            for (int i = currentIndex; i < chars.Length; i++)
+            for (i = 1; i < n; i++)
             {
-                swap(chars, currentIndex, i);
-                permutations(chars, currentIndex + 1);
-                swap(chars, currentIndex, i);
+                val = arr[i];
+                flag = 0;
+                for (j = i - 1; j >= 0 && flag != 1;)
+                {
+                    if (val < arr[j])
+                    {
+                        arr[j + 1] = arr[j];
+                        j--;
+                        arr[j + 1] = val;
+                    }
+                    else
+                    {
+                        flag = 1;
+                    }
+                }
             }
+            Console.WriteLine("Sorted Array");
+            foreach (int p in arr)
+            {
+                Console.WriteLine(p);
+            }
+
+
         }
 
-        public static void findPermutations(String str)
-        {
-
-            // base case
-            if (str == null || str.Length == 0)
-            {
-                return;
-            }
-
-            permutations(str.ToCharArray(), 0);
-        }
         public static void Main(string[] args) 
         {
-            String str = "ABC";
-            findPermutations(str);
-
+            Program.Display();
+       
 
         }
     }
