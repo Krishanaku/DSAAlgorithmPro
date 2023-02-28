@@ -2,61 +2,49 @@
 {
     public class Program
     {
-
-        public static void PrimeNumber()
+        public static void Display(char[] arr)
         {
-            int num1, num2, i, j, flag;
-
-
-            Console.WriteLine("Enter Lowest of value between 0 to 1000 : ");
-
-            num1 = int.Parse(Console.ReadLine());
-
-
-            Console.WriteLine("Enter Lowest of value between 0 to 1000: ");
-
-
-            num2 = int.Parse(Console.ReadLine());
-
-
-            Console.WriteLine("Prime numbers between " +
-                              "{0} and {1} are: ", num1, num2);
-
-
-            for (i = num1; i <= num2; i++)
+            foreach (char c in arr)
             {
-
-
-                if (i == 1 || i == 0)
-                    continue;
-
-                // flag variable to tell
-                // if i is prime or not
-                flag = 1;
-
-                for (j = 2; j <= i / 2; ++j)
-                {
-                    if (i % j == 0)
-                    {
-                        flag = 0;
-                        break;
-                    }
-                }
-
-                // flag = 1 means i is prime
-                // and flag = 0 means i is not prime
-                if (flag == 1)
-                    Console.WriteLine(i);
+                Console.WriteLine(c + " ");
             }
         }
-
-
-
-        public static void Main(string[] args) 
+        public static void Main(string[] args)
         {
-            Program.PrimeNumber();
-       
+            char[] arr = { 'e', 'c', 'd', 'e', 'f' };
 
+            //For this method array will be sorted.
+            Array.Sort(arr);
+
+            Console.WriteLine("The Element of sorted array : ");
+
+            Display(arr);
+
+            object s = 'h';
+
+            result(arr, s);
+
+            object s1 = 'a';
+
+            result(arr, s1);
+
+        }
+
+        public static void result(char[] arr2, object k)
+        {
+            int res = Array.BinarySearch(arr2, k);
+            if (res < 0)
+            {
+                Console.WriteLine("\nThe element to search for "
+                                + "({0}) is not found.",
+                            k);
+            }
+            else
+            {
+                Console.WriteLine("The element to search for "
+                                      + "({0}) is at index {1}.",
+                                  k, res);
+            }
         }
     }
 }
