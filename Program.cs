@@ -2,49 +2,54 @@
 {
     public class Program
     {
-        public static void Display(char[] arr)
+        static void Main(string[] args)
         {
-            foreach (char c in arr)
+            Console.WriteLine("Enter Lowest of value between 0 to 1000: ");
+            int start = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter Lowest of value between 0 to 1000: ");
+            int end = int.Parse(Console.ReadLine());
+
+            for (int i = start; i <= end; i++)
             {
-                Console.WriteLine(c + " ");
+                if (i % 2 == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    Console.WriteLine("Prime Number : {0}", i);
+                }
+            }
+
+            Console.WriteLine("Palindrome numbers in the range {0}, {1}:", start, end);
+
+            for (int num = start; num <= end; num++)
+            {
+                if (IsPalindrome(num))
+                {
+                    Console.WriteLine(num);
+                }
             }
         }
-        public static void Main(string[] args)
+
+        public static bool IsPalindrome(int num)
         {
-            char[] arr = { 'e', 'c', 'd', 'e', 'f' };
+            int originalNum = num;
+            int reversedNum = 0;
 
-            //For this method array will be sorted.
-            Array.Sort(arr);
+            while (num > 0)
+            {
+                int digit = num % 10;
+                reversedNum = reversedNum * 10 + digit;
+                num /= 10;
+            }
 
-            Console.WriteLine("The Element of sorted array : ");
+            return originalNum == reversedNum;
 
-            Display(arr);
-
-            object s = 'h';
-
-            result(arr, s);
-
-            object s1 = 'a';
-
-            result(arr, s1);
 
         }
 
-        public static void result(char[] arr2, object k)
-        {
-            int res = Array.BinarySearch(arr2, k);
-            if (res < 0)
-            {
-                Console.WriteLine("\nThe element to search for "
-                                + "({0}) is not found.",
-                            k);
-            }
-            else
-            {
-                Console.WriteLine("The element to search for "
-                                      + "({0}) is at index {1}.",
-                                  k, res);
-            }
-        }
+
     }
 }
