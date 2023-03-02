@@ -1,106 +1,66 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
-
+using System.Text.RegularExpressions;
 
 namespace DSAAlogrithmPro
 {
     public class Program
     {
 
-        Node head; // head of list
+        // HashSet to hold dictionary values
+        private static HashSet<string> dictionary = new HashSet<string>();
 
-        /* Linked list Node*/
-        class Node
+
+        // Returns true if the word can be segmented into parts such
+        // that each part is contained in dictionary
+        public static bool wordBreak(string word)
         {
-            public int data;
-            public Node next;
-            public Node(int d)
+            int size = word.Length;
+
+            // Base case
+            if (size == 0)
+                return true;
+
+            // Else check for all words
+            for (int i = 1; i <= size; i++)
             {
-                data = d;
-                next = null;
+                // Divide the word into two parts, the prefix will have a length of i
+                // and check if it is present in dictionary, if yes then we will check
+                // for suffix of length size-i recursively. If both prefix and
+                // suffix are present the word is found in dictionary.
+                if (dictionary.Contains(word.Substring(0, i)) &&
+                    wordBreak(word.Substring(i, size - i)))
+                    return true;
             }
+
+            // If all cases failed then return false
+            return false;
         }
-
-        /* function to insert a new_node in a list. */
-        void sortedInsert(Node new_node)
+        static void Main(string[] args)
         {
-            Node current;
+            // Array of strings to be added in dictionary HashSet
+            string[] temp_dictionary = { "mobile", "samsung", "sam", "sung",
+                            "man", "mango", "icecream", "and",
+                            "go", "i", "like", "ice", "cream" };
 
-            /* Special case for head node */
-            if (head == null || head.data >= new_node.data)
+            // Loop to add all strings in dictionary HashSet
+            foreach (string temp in temp_dictionary)
             {
-                new_node.next = head;
-                head = new_node;
+                dictionary.Add(temp);
             }
-            else
-            {
 
-                /* Locate the node before 
-                point of insertion. */
-                current = head;
-
-                while (current.next != null && current.next.data < new_node.data)
-                    current = current.next;
-
-                new_node.next = current.next;
-                current.next = new_node;
-            }
+            // Sample input cases
+            Console.WriteLine(wordBreak("ilikesamsung"));
+            Console.WriteLine(wordBreak("iiiiiiii"));
+            Console.WriteLine(wordBreak(""));
+            Console.WriteLine(wordBreak("ilikelikeimangoiii"));
+            Console.WriteLine(wordBreak("samsungandmango"));
+            Console.WriteLine(wordBreak("samsungandmangok"));
         }
-
-        /*Utility functions*/
-
-        /* Function to create a node */
-        Node newNode(int data)
-        {
-            Node x = new Node(data);
-            return x;
-        }
-
-        /* Function to print linked list */
-        void printList()
-        {
-            Node temp = head;
-            while (temp != null)
-            {
-                Console.Write(temp.data + " ");
-                temp = temp.next;
-            }
-        }
-
-        /* Driver code */
-        public static void Main(String[] args)
-        {
-            LinkedList llist = new LinkedList();
-            Node new_node;
-
-            new_node = llist.newNode(5);
-            llist.sortedInsert(new_node);
-
-            new_node = llist.newNode(10);
-            llist.sortedInsert(new_node);
-
-            new_node = llist.newNode(7);
-            llist.sortedInsert(new_node);
-
-            new_node = llist.newNode(3);
-            llist.sortedInsert(new_node);
-
-            new_node = llist.newNode(1);
-            llist.sortedInsert(new_node);
-
-            new_node = llist.newNode(9);
-            llist.sortedInsert(new_node);
-
-            Console.WriteLine("Created Linked List");
-            llist.printList();
-        }
-
-
     }
 }
+
+
