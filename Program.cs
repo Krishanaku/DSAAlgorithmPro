@@ -1,73 +1,104 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
+
 
 namespace DSAAlogrithmPro
 {
     public class Program
     {
 
-        static public void MainMerge(int[] numbers, int left, int mid, int right)
-        {
-            int[] temp = new int[25];
-            int i, eol, num, pos;
-            eol = (mid - 1);
-            pos = left;
-            num = (right - left + 1);
+        Node head; // head of list
 
-            while ((left <= eol) && (mid <= right))
+        /* Linked list Node*/
+        class Node
+        {
+            public int data;
+            public Node next;
+            public Node(int d)
             {
-                if (numbers[left] <= numbers[mid])
-                    temp[pos++] = numbers[left++];
-                else
-                    temp[pos++] = numbers[mid++];
-            }
-            while (left <= eol)
-                temp[pos++] = numbers[left++];
-            while (mid <= right)
-                temp[pos++] = numbers[mid++];
-            for (i = 0; i < num; i++)
-            {
-                numbers[right] = temp[right];
-                right--;
+                data = d;
+                next = null;
             }
         }
 
-        static public void SortMerge(int[] numbers, int left, int right)
+        /* function to insert a new_node in a list. */
+        void sortedInsert(Node new_node)
         {
-            int mid;
-            if (right > left)
+            Node current;
+
+            /* Special case for head node */
+            if (head == null || head.data >= new_node.data)
             {
-                mid = (right + left) / 2;
-                SortMerge(numbers, left, mid);
-                SortMerge(numbers, (mid + 1), right);
-                MainMerge(numbers, left, (mid + 1), right);
+                new_node.next = head;
+                head = new_node;
+            }
+            else
+            {
+
+                /* Locate the node before 
+                point of insertion. */
+                current = head;
+
+                while (current.next != null && current.next.data < new_node.data)
+                    current = current.next;
+
+                new_node.next = current.next;
+                current.next = new_node;
             }
         }
 
-        static void Main(string[] args)
-        {
+        /*Utility functions*/
 
-            Console.Write("\nProgram for sorting a numeric array using Merge Sorting");
-            Console.Write("\n\nEnter number of elements: ");
-            int max = Convert.ToInt32(Console.ReadLine());
-            int[] numbers = new int[max];
-            for (int i = 0; i < max; i++)
+        /* Function to create a node */
+        Node newNode(int data)
+        {
+            Node x = new Node(data);
+            return x;
+        }
+
+        /* Function to print linked list */
+        void printList()
+        {
+            Node temp = head;
+            while (temp != null)
             {
-                Console.Write("\nEnter [" + (i + 1).ToString() + "] element: ");
-                numbers[i] = Convert.ToInt32(Console.ReadLine());
+                Console.Write(temp.data + " ");
+                temp = temp.next;
             }
-            Console.Write("Input int array : ");
-            Console.Write("\n");
-            for (int k = 0; k < max; k++)
-            {
-                Console.Write(numbers[k] + " ");
-                Console.Write("\n");
-            }
-            Console.WriteLine("MergeSort By Recursive Method");
-            SortMerge(numbers, 0, max - 1);
-            for (int i = 0; i < max; i++)
-                Console.WriteLine(numbers[i]);
-            Console.ReadLine();
+        }
+
+        /* Driver code */
+        public static void Main(String[] args)
+        {
+            LinkedList llist = new LinkedList();
+            Node new_node;
+
+            new_node = llist.newNode(5);
+            llist.sortedInsert(new_node);
+
+            new_node = llist.newNode(10);
+            llist.sortedInsert(new_node);
+
+            new_node = llist.newNode(7);
+            llist.sortedInsert(new_node);
+
+            new_node = llist.newNode(3);
+            llist.sortedInsert(new_node);
+
+            new_node = llist.newNode(1);
+            llist.sortedInsert(new_node);
+
+            new_node = llist.newNode(9);
+            llist.sortedInsert(new_node);
+
+            Console.WriteLine("Created Linked List");
+            llist.printList();
         }
 
 
