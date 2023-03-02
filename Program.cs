@@ -6,56 +6,69 @@ namespace DSAAlogrithmPro
     public class Program
     {
 
-        public static void DisplayFname()
+        static public void MainMerge(int[] numbers, int left, int mid, int right)
         {
-            string inputString = "<<name>> First Name ";
-            string firstName = "John"; // Replace with your first name
+            int[] temp = new int[25];
+            int i, eol, num, pos;
+            eol = (mid - 1);
+            pos = left;
+            num = (right - left + 1);
 
-            string outputString = Regex.Replace(inputString, "<<name>>", firstName);
-
-            Console.WriteLine(outputString);
-        }
-        public static void DisplayFullName()
-        {
-            string input = "Hello <<full name>>! How are you?";
-            string fullName = "John Doe"; // Replace this with the actual full name
-
-            string output = Regex.Replace(input, "<<full name>>", fullName);
-            Console.WriteLine(output); // Outputs: Hello John Doe! How are you?
-
-        }
-
-        public static void DisplayMobile() 
-        {
-            string input = "My mobile number is 91-9876543210. ";
-            string contactNumber = "1234567890"; 
-
-            string output = Regex.Replace(input, @"91-\d{10}", contactNumber);
-            Console.WriteLine(output); 
-        }
-        public static void DisplayCurrentDate()
-        {
-            string input = "Today's date is 02/28/2023";
-            DateTime currentDate = DateTime.Now.Date;
-
-            string output = Regex.Replace(input, @"\d{2}/\d{2}/\d{4}", currentDate.ToString("MM/dd/yyyy"));
-            Console.WriteLine(output); // Outputs: Today's date is 02/28/2023. Please confirm the order by 02/28/2023.
-
+            while ((left <= eol) && (mid <= right))
+            {
+                if (numbers[left] <= numbers[mid])
+                    temp[pos++] = numbers[left++];
+                else
+                    temp[pos++] = numbers[mid++];
+            }
+            while (left <= eol)
+                temp[pos++] = numbers[left++];
+            while (mid <= right)
+                temp[pos++] = numbers[mid++];
+            for (i = 0; i < num; i++)
+            {
+                numbers[right] = temp[right];
+                right--;
+            }
         }
 
-
-
-
-        public static void Main(string[] args) 
+        static public void SortMerge(int[] numbers, int left, int right)
         {
-            Program.DisplayFname();
-            Program.DisplayFullName();
-            Program.DisplayMobile();
-            Program.DisplayCurrentDate();
-           
-
+            int mid;
+            if (right > left)
+            {
+                mid = (right + left) / 2;
+                SortMerge(numbers, left, mid);
+                SortMerge(numbers, (mid + 1), right);
+                MainMerge(numbers, left, (mid + 1), right);
+            }
         }
-      
+
+        static void Main(string[] args)
+        {
+
+            Console.Write("\nProgram for sorting a numeric array using Merge Sorting");
+            Console.Write("\n\nEnter number of elements: ");
+            int max = Convert.ToInt32(Console.ReadLine());
+            int[] numbers = new int[max];
+            for (int i = 0; i < max; i++)
+            {
+                Console.Write("\nEnter [" + (i + 1).ToString() + "] element: ");
+                numbers[i] = Convert.ToInt32(Console.ReadLine());
+            }
+            Console.Write("Input int array : ");
+            Console.Write("\n");
+            for (int k = 0; k < max; k++)
+            {
+                Console.Write(numbers[k] + " ");
+                Console.Write("\n");
+            }
+            Console.WriteLine("MergeSort By Recursive Method");
+            SortMerge(numbers, 0, max - 1);
+            for (int i = 0; i < max; i++)
+                Console.WriteLine(numbers[i]);
+            Console.ReadLine();
+        }
 
 
     }
