@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
@@ -9,58 +8,125 @@ namespace DSAAlogrithmPro
 {
     public class Program
     {
-
-        // HashSet to hold dictionary values
-        private static HashSet<string> dictionary = new HashSet<string>();
-
-
-        // Returns true if the word can be segmented into parts such
-        // that each part is contained in dictionary
-        public static bool wordBreak(string word)
+        public class stack
         {
-            int size = word.Length;
+            public int top = -1;
+            public char[] items = new char[100];
 
-            // Base case
-            if (size == 0)
-                return true;
-
-            // Else check for all words
-            for (int i = 1; i <= size; i++)
+            public void push(char x)
             {
-                // Divide the word into two parts, the prefix will have a length of i
-                // and check if it is present in dictionary, if yes then we will check
-                // for suffix of length size-i recursively. If both prefix and
-                // suffix are present the word is found in dictionary.
-                if (dictionary.Contains(word.Substring(0, i)) &&
-                    wordBreak(word.Substring(i, size - i)))
-                    return true;
+                if (top == 99)
+                {
+                    Console.WriteLine("Stack full");
+                }
+                else
+                {
+                    items[++top] = x;
+                }
             }
 
-            // If all cases failed then return false
-            return false;
+            char pop()
+            {
+                if (top == -1)
+                {
+                    Console.WriteLine("Underflow error");
+                    return '\0';
+                }
+                else
+                {
+                    char element = items[top];
+                    top--;
+                    return element;
+                }
+            }
+
+            Boolean isEmpty()
+            {
+                return (top == -1) ? true : false;
+            }
         }
-        static void Main(string[] args)
-        {
-            // Array of strings to be added in dictionary HashSet
-            string[] temp_dictionary = { "mobile", "samsung", "sam", "sung",
-                            "man", "mango", "icecream", "and",
-                            "go", "i", "like", "ice", "cream" };
 
-            // Loop to add all strings in dictionary HashSet
-            foreach (string temp in temp_dictionary)
+        // Returns true if character1 and character2
+        // are matching left and right brackets */
+        static Boolean isMatchingPair(char character1,
+                                      char character2)
+        {
+            if (character1 == '(' && character2 == ')')
+                return true;
+            else if (character1 == '{' && character2 == '}')
+                return true;
+            else if (character1 == '[' && character2 == ']')
+                return true;
+            else
+                return false;
+        }
+
+        // Return true if expression has balanced
+        // Brackets
+        static Boolean areBracketsBalanced(char[] exp)
+        {
+            // Declare an empty character stack */
+            Stack<char> st = new Stack<char>();
+
+            // Traverse the given expression to
+            //   check matching brackets
+            for (int i = 0; i < exp.Length; i++)
             {
-                dictionary.Add(temp);
+                // If the exp[i] is a starting
+                // bracket then push it
+                if (exp[i] == '{' || exp[i] == '('
+                    || exp[i] == '[')
+                    st.Push(exp[i]);
+
+                //  If exp[i] is an ending bracket
+                //  then pop from stack and check if the
+                //   popped bracket is a matching pair
+                if (exp[i] == '}' || exp[i] == ')'
+                    || exp[i] == ']')
+                {
+
+                    // If we see an ending bracket without
+                    //   a pair then return false
+                    if (st.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    // Pop the top element from stack, if
+                    // it is not a pair brackets of
+                    // character then there is a mismatch. This
+                    // happens for expressions like {(})
+                    else if (!isMatchingPair(st.Pop(),
+                                             exp[i]))
+                    {
+                        return false;
+                    }
+                }
             }
 
-            // Sample input cases
-            Console.WriteLine(wordBreak("ilikesamsung"));
-            Console.WriteLine(wordBreak("iiiiiiii"));
-            Console.WriteLine(wordBreak(""));
-            Console.WriteLine(wordBreak("ilikelikeimangoiii"));
-            Console.WriteLine(wordBreak("samsungandmango"));
-            Console.WriteLine(wordBreak("samsungandmangok"));
+            // If there is something left in expression
+            // then there is a starting bracket without
+            // a closing bracket
+
+            if (st.Count == 0)
+                return true; // balanced
+            else
+            {
+                // not balanced
+                return false;
+            }
+        }
+
+        // Driver code
+        public static void Main(String[] args)
+        {
+            char[] exp = { '{', '(', ')', '}', '[', ']' };
+
+            // Function call
+            if (areBracketsBalanced(exp))
+                Console.WriteLine("Balanced ");
+            else
+                Console.WriteLine("Not Balanced ");
         }
     }
 }
-
-
